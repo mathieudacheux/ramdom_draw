@@ -19,7 +19,7 @@ function getRandomWinner(existingWinners, participants) {
 
 // Select 5 winners for coaching
 for (let i = 0; i < 5; i++) {
-	const winner = getRandomWinner(winners.coaching, participants)
+	const winner = getRandomWinner([...winners.coaching, ...winners.oneToOne], participants)
 	winners.coaching.push(winner)
 }
 
