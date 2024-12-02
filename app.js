@@ -1,32 +1,31 @@
 import { emails } from "./emails.js"
 
-const participants = emails
-
-const winners = {
-	coaching: [],
-	oneToOne: []
+const selectRandomWinner = (participants, existingWinners) => {
+	const eligibleParticipants = participants.filter(
+		(participant) => !existingWinners.includes(participant)
+	)
+	return eligibleParticipants[
+		Math.floor(Math.random() * eligibleParticipants.length)
+	]
 }
 
-function getRandomWinner(existingWinners, participants) {
-	let winner
+const selectWinners = (participants, coachingCount) => {
+	const winners = {
+		coaching: [],
+		oneToOne: []
+	}
 
-	do {
-		winner = participants[Math.floor(Math.random() * participants.length)]
-	} while (existingWinners.includes(winner))
+	const coachingWinners = Array.from({ length: coachingCount }, () => {
+		return selectRandomWinner(participants, winners.coaching)
+	})
 
-	return winner
+	winners.coaching = coachingWinners
+	winners.oneToOne = [selectRandomWinner(participants, coachingWinners)]
+
+	return winners
 }
 
-// Select 5 winners for coaching
-for (let i = 0; i < 5; i++) {
-	const winner = getRandomWinner(winners.coaching, participants)
-	winners.coaching.push(winner)
-}
+const results = selectWinners(emails, 5)
 
-// Select 1 winner for one-to-one
-const oneToOneWinner = getRandomWinner(winners.coaching, participants)
-
-winners.oneToOne.push(oneToOneWinner)
-
-console.log("🚀 ~ winnersCoaching:", winners.coaching)
-console.log("🚀 ~ winnersOneToOne:", winners.oneToOne)
+console.log("🚀 ~ winnersCoaching:", results.coaching)
+console.log("🚀 ~ winnersOneToOne:", results.oneToOne)
