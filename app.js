@@ -1,6 +1,6 @@
 import { emails } from "./emails.js"
 
-const participants = emails
+const participants = [...new Set(emails)];
 
 const winners = {
 	coaching: [],
