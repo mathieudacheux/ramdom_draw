@@ -1,5 +1,7 @@
 import { emails } from "./emails.js"
 
+const emailParticipants = [...new Set(emails)]
+
 const selectRandomWinner = (participants, existingWinners) => {
 	const eligibleParticipants = participants.filter(
 		(participant) => !existingWinners.includes(participant)
@@ -25,7 +27,7 @@ const selectWinners = (participants, coachingCount) => {
 	return winners
 }
 
-const results = selectWinners(emails, 5)
+const results = selectWinners(emailParticipants, 5)
 
 console.log("🚀 ~ winnersCoaching:", results.coaching)
 console.log("🚀 ~ winnersOneToOne:", results.oneToOne)
